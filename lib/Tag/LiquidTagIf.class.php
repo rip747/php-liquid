@@ -38,12 +38,18 @@ class LiquidTagIf extends LiquidDecisionBlock
 	 */
 	public function __construct($markup, &$tokens, &$file_system)
 	{
+new dBug(func_get_args(), "Arguments = LiquidTagIf::Init");
+//exit();
 		$this->_nodelist = &$this->_nodelistHolders[count($this->_blocks)];
+new dBug($this->_nodelist, "_nodelist = LiquidTagIf::Init");
+new dBug($this->_nodelistHolders, "_nodelistHolders = LiquidTagIf::Init");
+
 
 		array_push($this->_blocks, array(
 			'if', $markup, &$this->_nodelist
 		));
-
+new dBug($this->_blocks, 'blocks  = LiquidTagIf::Init');
+new dBug($tokens, 'tokens  = LiquidTagIf::Init');
 		parent::__construct($markup, $tokens, $file_system);
 
 	}
@@ -58,15 +64,27 @@ class LiquidTagIf extends LiquidDecisionBlock
 	 */
 	function unknown_tag($tag, $params, &$tokens)
 	{
+new dBug(func_get_args(), 'Start = LiquidIf::unknown_tag');
 		if($tag == 'else' || $tag == 'elsif')
 		{
+new dBug(count($this->_blocks), 'block count');
+new dBug($this->_blocks, 'blocks');
+new dBug($this->_nodelist, '_nodelist');
+new dBug($this->_nodelistHolders, '_nodelistHolders');
 			/* Update reference to nodelistHolder for this block */
 			$this->_nodelist = &$this->_nodelistHolders[count($this->_blocks) + 1];
 			$this->_nodelistHolders[count($this->_blocks) + 1] = array();
+new dBug($this->_blocks, 'blocks 2');
+new dBug($this->_nodelist, '_nodelist 2');
+new dBug($this->_nodelistHolders, '_nodelistHolders 2');
 
 			array_push($this->_blocks, array(
 				$tag, $params, &$this->_nodelist
 			));
+			
+new dBug($this->_blocks, 'blocks 3');
+new dBug($this->_nodelist, '_nodelist 3');
+new dBug($this->_nodelistHolders, '_nodelistHolders 3');
 
 		}
 		else
@@ -170,3 +188,4 @@ class LiquidTagIf extends LiquidDecisionBlock
 		return $result;
 	}
 }
+

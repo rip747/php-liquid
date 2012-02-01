@@ -54,6 +54,7 @@ class LiquidTemplate
 	public function __construct($path = null, $cache = null)
 	{
 		$this->_fileSystem = (isset($path)) ? new LiquidLocalFileSystem($path) : new LiquidBlankFileSystem();
+new dBug($this->_fileSystem, "fiesystem = LiquidTemplate::Init");
 		$this->_filters = array();
 		$this->setCache($cache);
 	}
@@ -168,7 +169,8 @@ class LiquidTemplate
 	public function parse($source)
 	{
 		$cache = self::$_cache;
-		
+new dBug($cache, "source cache");
+
 		if(isset($cache))
 		{
 			if(($this->_root = $cache->read(md5($source))) != false && $this->_root->checkIncludes() != true)
@@ -182,8 +184,12 @@ class LiquidTemplate
 		}
 		else
 		{
+new dBug(LiquidTemplate::tokenize($source), "Tokenized Source");
+new dBug($this->_fileSystem, "File System");
 			$this->_root = new LiquidDocument(LiquidTemplate::tokenize($source), $this->_fileSystem);
+new dBug($this->_root, "Document Root");
 		}
+exit();
 		return $this;
 	}
 

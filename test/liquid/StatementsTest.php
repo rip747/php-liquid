@@ -21,7 +21,7 @@ class StatementTest extends LiquidTestcase
 		$expected = "  true  ";
 		$this->assert_template_result($expected, $text);
 	}
-
+/*
 	function  test_true_not_eql_true()
 	{
 		$text = " {% if true != true %} true {% else %} false {% endif %} ";
@@ -154,4 +154,6 @@ class StatementTest extends LiquidTestcase
 		$expected = "  true  ";
 		$this->assert_template_result($expected, $text, array('var' => 1 ));
 	}
+ * 
+ */
 }

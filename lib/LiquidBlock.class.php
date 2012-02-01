@@ -33,27 +33,34 @@ class LiquidBlock extends LiquidTag
 		$start_regexp = new LiquidRegexp('/^'.LIQUID_TAG_START.'/');
 		$tag_regexp = new LiquidRegexp('/^'.LIQUID_TAG_START.'\s*(\w+)\s*(.*)?'.LIQUID_TAG_END.'$/');
 		$variable_start_regexp = new LiquidRegexp('/^'.LIQUID_VARIABLE_START.'/');
-		
+new dBug("Start = LiquidBlock::Parse");
+new dBug(func_get_args(), "Arguments = LiquidBlock::Parse");
+
 		$this->_nodelist = array();
-		
+new dBug($this->_nodelist, 'when nodelist intialized');
 		if(!is_array($tokens))
 		{
 			return;
 		}
-		
 		$tags = LiquidTemplate::getTags();
-		
+new dBug($tags, "all tags");
 		while(count($tokens))
 		{
       $token = array_shift($tokens);
+	  
+new dBug("token: " .$token);
+new dBug($this->_nodelist, 'in tokens loop: _nodelist');
 
 			if($start_regexp->match($token))
 			{
 				if($tag_regexp->match($token))
 				{
+new dBug($tag_regexp->matches, "token tag matches");
+
 					// if we found the proper block delimitor just end parsing here and let the outer block proceed 
 					if($tag_regexp->matches[1] == $this->block_delimiter())
 					{
+//new dBug($this->end_tag(), "token tag matches");exit();
 						return $this->end_tag();
 					}
 
@@ -61,14 +68,25 @@ class LiquidBlock extends LiquidTag
 						$tag_name = $tags[$tag_regexp->matches[1]];
 					else			
 						$tag_name = 'LiquidTag'.ucwords($tag_regexp->matches[1]);// search for a defined class of the right name, instead of searching in an array	
-					
+new dBug($tag_name);
+//exit();
 					// fetch the tag from registered blocks
 					if(class_exists($tag_name))
 					{
-						$this->_nodelist[] = new $tag_name($tag_regexp->matches[2], $tokens, $this->file_system);
+new dBug('tag name found: '.$tag_name);
+new dBug($this->_nodelist, 'before tag_name call');
+
+						$temp = new $tag_name($tag_regexp->matches[2], $tokens, $this->file_system);
+new dBug($temp, 'after tag_name call');
+exit();
+
+//						$this->_nodelist[] = new $tag_name($tag_regexp->matches[2], $tokens, $this->file_system);
+new dBug($this->_nodelist, 'after tag_name call');
 					}
 					else
 					{
+new dBug('unknown tag: '.$tag_name);
+//exit();
 						$this->unknown_tag($tag_regexp->matches[1], $tag_regexp->matches[2], $tokens);	
 					}
 				}
@@ -80,15 +98,18 @@ class LiquidBlock extends LiquidTag
 			}
 			elseif($variable_start_regexp->match($token))
 			{
+new dBug($this->_nodelist, 'before create_variable call');		
 				$this->_nodelist[] = $this->create_variable($token);
-				
+new dBug($this->_nodelist, 'after create_variable call');
 			}
 			elseif($token != '')
 			{
+new dBug($this->_nodelist, 'before blank token assignment');	
 				$this->_nodelist[] = $token;
+new dBug($this->_nodelist, 'after blank token assignment');
 			}
 		}
-		
+new dBug('shouldnnot be here');
 		$this->assert_missing_delimitation();
 	}
 	

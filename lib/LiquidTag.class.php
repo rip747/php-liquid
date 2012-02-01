@@ -50,6 +50,7 @@ abstract class LiquidTag
 	{
 		$this->markup = $markup;
 		$this->file_system = $file_system;
+new dBug(func_get_args(), "liquidtag parse tokens");
 		return $this->parse($tokens);
 	}
 

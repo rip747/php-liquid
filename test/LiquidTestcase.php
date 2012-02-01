@@ -19,7 +19,8 @@ class LiquidTestcase extends UnitTestCase
 		if ($debug) {
 			debug($result);
 		}
-		
+		new dBug($expected);
+		new dBug($result->render($assigns, $this->filters));
 		$this->assertEqual($expected, $result->render($assigns, $this->filters), $message);
 	}
 

@@ -1,5 +1,7 @@
 <?php
 
+include_once(dirname(__FILE__).'/../dBug.php');
+
 define('SIMPLETEST_PATH', dirname(__FILE__).'/simpletest/');
 
 define('LIQUID_INCLUDE_SUFFIX', 'tpl');
@@ -16,10 +18,14 @@ include __DIR__ . '/LiquidTestcase.php';
 
 $test = new TestSuite('All liquid tests');
 
-$path = dirname(__FILE__).'/liquid/';
+$test->addFile(dirname(__FILE__).'/liquid/StatementsTest.php');
+
+
+
+//$path = dirname(__FILE__).'/liquid/';
 
 // include all classes
-$dir = dir($path);
+/*$dir = dir($path);
 
 while(($file = $dir->read()) !== false )
 {
@@ -32,7 +38,7 @@ while(($file = $dir->read()) !== false )
 		$test->addFile($path.$file);
 	}
 }
-
+*/
 class ShowPasses extends HtmlReporter {
     
     function paintPass($message) {
